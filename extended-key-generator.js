@@ -26,13 +26,16 @@ else {
     options.path = "m/48'/1'/0'/2'";
 }
 
-let derived = master;
-if (options.path[0] !== 'm' && options.path[0] !== 'm/') {
-    derived = master.derivePath(options.path)
-}
+let derived = master.derivePath(options.path)
 
 const xkeys = { xprv: derived.toBase58(), xpub: derived.neutered().toBase58() };
 derived.network = bitcoin.networks.testnet;
 const tkeys = { tprv: derived.toBase58(), tpub: derived.neutered().toBase58() };
 
-console.log({xkeys, tkeys})
+console.log({
+    fingerprint: derived.fingerprint.toString('hex'),
+    depth: derived.depth,
+    index: derived.index,
+    xkeys,
+    tkeys
+})
