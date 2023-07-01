@@ -7,6 +7,7 @@ const bip32 = BIP32Factory(ecc);
 
 program
   .requiredOption('-k, --key <key>', 'the extended key to decode')
+  .option('-p, --public', 'also print the public key derived from the provided private extended key')
   .parse(process.argv);
 
 const options = program.opts();
@@ -34,7 +35,8 @@ if (b32Key.privateKey) {
   console.log('private key :', '0x'.concat(Buffer.from(b32Key.privateKey).toString('hex')));
   console.log('            :', b32Key.privateKey);
 }
-else {
+
+if (!b32Key.privateKey || options.public) {
   console.log('public key  :', '0x'.concat(Buffer.from(b32Key.publicKey).toString('hex')));
   console.log('            :', b32Key.publicKey);
 }
