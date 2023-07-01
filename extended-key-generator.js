@@ -33,6 +33,7 @@ derived.network = bitcoin.networks.testnet;
 const tkeys = { tprv: derived.toBase58(), tpub: derived.neutered().toBase58() };
 
 console.log({
+  origin: master.fingerprint.toString('hex'),
   fingerprint: derived.fingerprint.toString('hex'),
   depth: derived.depth,
   index: derived.index,
