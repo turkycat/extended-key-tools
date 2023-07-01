@@ -7,16 +7,21 @@ const { BIP32Path } = require('bitcoinjs-lib/src/types');
 const bip32 = BIP32Factory(ecc);
 
 program
+  .requiredOption('-k, --key <key>', 'the extended key to derive')
   .option('-p, --path <path>', 'the derivation path to use')
   .parse(process.argv);
 
 const options = program.opts();
 
-// Generate a random seed (not secure)
-const seed = bitcoin.crypto.sha256(Math.random().toString());
+testnetChars = [ 't', 'u', 'v', 'U', 'V' ];
+
+let network = bitcoin.networks.bitcoin;
+if (testnetChars.includes(options.key[0])) {
+  network = bitcoin.networks.testnet;
+}
 
 // create a master key and encode it for main and testnet
-const master = bip32.fromSeed(seed, bitcoin.networks.mainnet);
+const master = bip32.fromBase58(options.key, network);
 
 if (options.path) {
   options.path = options.path.replace(/h/g, '\'');
