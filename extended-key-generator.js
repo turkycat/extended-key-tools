@@ -27,7 +27,10 @@ else {
   options.path = "m/48'/1'/0'/2'";
 }
 
-let derived = master.derivePath(options.path)
+let derived = master
+if (!(options.path === 'm' || options.path === 'm/')) {
+  derived = master.derivePath(options.path)
+}
 
 derived.network = bitcoin.networks.bitcoin;
 const main = { xprv: derived.toBase58(), xpub: derived.neutered().toBase58() };
