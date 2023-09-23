@@ -6,6 +6,7 @@ const ecc = require('tiny-secp256k1');
 const bip32 = BIP32Factory(ecc);
 
 program
+  .addHelpText('before', 'decodes an extended key.')
   .requiredOption('-k, --key <key>', 'the extended key to decode')
   .option('-p, --public', 'also print the public key derived from the provided private extended key')
   .parse(process.argv);

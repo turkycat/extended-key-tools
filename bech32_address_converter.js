@@ -9,7 +9,8 @@ const { BIP32Path } = require('bitcoinjs-lib/src/types');
 const bip32 = BIP32Factory(ecc);
 
 program
-  .requiredOption('-a, --address <address>', 'the address path to convert')
+  .addHelpText('before', 'converts a given bech32 address between networks.')
+  .requiredOption('-a, --address <address>', 'the beck32 address path to convert')
   .requiredOption('-n, --network <network>', 'the network to convert to, valid values are \'mainnet\', \'testnet\', and \'regtest\'')
   .parse(process.argv);
 
@@ -40,11 +41,11 @@ else if (options.network === 'regtest') {
 
 // Decode the address from the source network
 const decoded = bitcoin.address.fromBech32(options.address);
-console.log(decoded);
+console.log('given address, decoded:', decoded);
 
 // Convert the decoded address to the destination network
 // only works for segwit lol (version 0)
 const converted = bitcoin.address.toBech32(decoded.data, 0, prefix);//destinationNetwork.pubKeyHash);
 
 // Output the converted address
-console.log(converted);
+console.log(`converted address to ${options.network}:`, converted);

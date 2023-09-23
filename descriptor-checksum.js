@@ -2,6 +2,7 @@ const { Command } = require('commander');
 const program = new Command();
 
 program
+  .addHelpText('before', 'calculates the checksum for a given descriptor.')
   .option('-d, --descriptor <descriptor>', 'the descriptor to calculate checksum for, as is.')
   .parse(process.argv);
 

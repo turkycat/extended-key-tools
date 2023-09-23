@@ -6,6 +6,7 @@ const ecc = require('tiny-secp256k1');
 const bip32 = BIP32Factory(ecc);
 
 program
+  .addHelpText('before', 'converts a given extended key between networks or from private to public.')
   .requiredOption('-k, --key <key>', 'the extended key to decode')
   .option('-p, --public', 'convert extended private key to public key')
   .parse(process.argv);

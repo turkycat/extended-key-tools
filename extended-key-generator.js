@@ -6,8 +6,11 @@ const ecc = require('tiny-secp256k1');
 const { BIP32Path } = require('bitcoinjs-lib/src/types');
 const bip32 = BIP32Factory(ecc);
 
+const DEFAULT_PATH = "m/48'/1'/0'/2'"
+
 program
-  .option('-p, --path <path>', 'the derivation path to use')
+  .addHelpText('before', 'generates extended key pairs for mainnet and testnet from a common randomly-generated seed.')
+  .option('-p, --path <path>', `the derivation path to use. use h or ' for hardened derivations. default: ${DEFAULT_PATH}`)
   .parse(process.argv);
 
 const options = program.opts();
@@ -23,8 +26,8 @@ if (options.path) {
   console.log('Using path: ' + options.path);
 }
 else {
-  console.log("Using default path for testnet p2wsh: m/48'/1'/0'/2'");
-  options.path = "m/48'/1'/0'/2'";
+  console.log(`Using default path for testnet p2wsh: ${DEFAULT_PATH}`);
+  options.path = DEFAULT_PATH;
 }
 
 let derived = master
