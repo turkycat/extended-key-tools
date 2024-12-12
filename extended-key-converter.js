@@ -4,6 +4,7 @@ const bitcoin = require("bitcoinjs-lib");
 const { BIP32Factory } = require("bip32");
 const ecc = require("tiny-secp256k1");
 const bip32 = BIP32Factory(ecc);
+const {getNetworksForExtendedKey} = require('./networks');
 
 program
   .addHelpText(
@@ -16,15 +17,9 @@ program
 
 const options = program.opts();
 
-testnetChars = ["t", "u", "v", "U", "V"];
-
-let network = bitcoin.networks.bitcoin;
-let convertTo = bitcoin.networks.testnet;
-if (testnetChars.includes(options.key[0])) {
-  network = bitcoin.networks.testnet;
-  convertTo = bitcoin.networks.bitcoin;
-}
-const b32Key = bip32.fromBase58(options.key, network);
+const networks = getNetworksForExtendedKey(options.key);
+const b32Key = bip32.fromBase58(options.key, networks.current);
+const convertToNetwork = networks.current === networks.mainnet ? networks.testnet : networks.mainnet;
 
 if (options.public) {
   if (!b32Key.privateKey) {
@@ -36,5 +31,5 @@ if (options.public) {
   process.exit(0);
 }
 
-b32Key.network = convertTo;
+b32Key.network = convertToNetwork;
 console.log(b32Key.toBase58());

@@ -4,6 +4,7 @@ const bitcoin = require('bitcoinjs-lib')
 const { BIP32Factory } = require('bip32');
 const ecc = require('tiny-secp256k1');
 const bip32 = BIP32Factory(ecc);
+const {getNetworksForExtendedKey} = require('./networks');
 
 program
   .addHelpText('before', 'decodes an extended key.')
@@ -13,13 +14,8 @@ program
 
 const options = program.opts();
 
-testnetChars = [ 't', 'u', 'v', 'U', 'V' ];
-
-let network = bitcoin.networks.bitcoin;
-if (testnetChars.includes(options.key[0])) {
-  network = bitcoin.networks.testnet;
-}
-const b32Key = bip32.fromBase58(options.key, network);
+const networks = getNetworksForExtendedKey(options.key);
+const b32Key = bip32.fromBase58(options.key, networks.current);
 
 if (b32Key.privateKey) {
   console.log('version     :', b32Key.network.bip32.private.toString(16).padStart(10, '0x0'));
