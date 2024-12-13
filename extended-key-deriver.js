@@ -19,8 +19,8 @@ program
 
 const options = program.opts();
 
-const networks = getNetworksForExtendedKey(options.key);
-const key = bip32.fromBase58(options.key, networks.current);
+const keyNetworks = getNetworksForExtendedKey(options.key);
+const key = bip32.fromBase58(options.key, keyNetworks.current);
 
 if (options.path) {
   options.path = options.path.replace(/h/g, '\'');
@@ -31,10 +31,10 @@ else {
   options.path = DEFAULT_PATH;
 }
 
-key.network = networks.mainnet;
+key.network = keyNetworks.mainnet;
 const derived = key.derivePath(options.path)
-const derivedTest = bip32.fromBase58(derived.toBase58(), networks.mainnet);
-derivedTest.network = networks.testnet;
+const derivedTest = bip32.fromBase58(derived.toBase58(), keyNetworks.mainnet);
+derivedTest.network = keyNetworks.testnet;
 
 let main = {}
 let test = {}

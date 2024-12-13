@@ -15,34 +15,34 @@ program
 
 const options = program.opts();
 
-const networks = getNetworksForExtendedKey(options.key);
-const b32Key = bip32.fromBase58(options.key, networks.current);
+const keyNetworks = getNetworksForExtendedKey(options.key);
+const key = bip32.fromBase58(options.key, keyNetworks.current);
 
-if (b32Key.privateKey) {
-  console.log('version     :', b32Key.network.bip32.private.toString(16).padStart(10, '0x0'));
+if (key.privateKey) {
+  console.log('version     :', key.network.bip32.private.toString(16).padStart(10, '0x0'));
 }
 else {
-  console.log('version     :', b32Key.network.bip32.public.toString(16).padStart(10, '0x0'));
+  console.log('version     :', key.network.bip32.public.toString(16).padStart(10, '0x0'));
 }
 
-console.log('depth       :', b32Key.depth);
+console.log('depth       :', key.depth);
 
-const index = translateIndex(b32Key.index);
+const index = translateIndex(key.index);
 console.log('hardened    :', index.hardened);
 console.log('index       :', index.index);
 console.log('index (val) :', index.value);
 
-console.log('fingerprint :', '0x'.concat(Buffer.from(b32Key.fingerprint).toString('hex')));
+console.log('fingerprint :', '0x'.concat(Buffer.from(key.fingerprint).toString('hex')));
 
-if (b32Key.privateKey) {
-  console.log('private key :', '0x'.concat(Buffer.from(b32Key.privateKey).toString('hex')));
-  console.log('            :', b32Key.privateKey);
+if (key.privateKey) {
+  console.log('private key :', '0x'.concat(Buffer.from(key.privateKey).toString('hex')));
+  console.log('            :', key.privateKey);
 }
 
-if (!b32Key.privateKey || options.public) {
-  console.log('public key  :', '0x'.concat(Buffer.from(b32Key.publicKey).toString('hex')));
-  console.log('            :', b32Key.publicKey);
+if (!key.privateKey || options.public) {
+  console.log('public key  :', '0x'.concat(Buffer.from(key.publicKey).toString('hex')));
+  console.log('            :', key.publicKey);
 }
 
-console.log('chain code  :', '0x'.concat(Buffer.from(b32Key.chainCode).toString('hex')));
-console.log('            :', b32Key.chainCode);
+console.log('chain code  :', '0x'.concat(Buffer.from(key.chainCode).toString('hex')));
+console.log('            :', key.chainCode);
