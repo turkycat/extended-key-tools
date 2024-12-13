@@ -17,8 +17,6 @@ const options = program.opts();
 
 // Generate a random seed (not secure)
 const seed = bitcoin.crypto.sha256(Math.random().toString());
-
-// create a master key and encode it for main and testnet
 const master = bip32.fromSeed(seed, bitcoin.networks.mainnet);
 
 if (options.path) {
@@ -30,7 +28,7 @@ else {
   options.path = DEFAULT_PATH;
 }
 
-let derived = master
+let derived = bip32.fromSeed(seed, bitcoin.networks.mainnet);
 if (!(options.path === 'm' || options.path === 'm/')) {
   derived = master.derivePath(options.path)
 }
@@ -41,10 +39,15 @@ derived.network = bitcoin.networks.testnet;
 const test = { tprv: derived.toBase58(), tpub: derived.neutered().toBase58() };
 
 console.log({
+  seed: seed.toString('hex'),
   origin: master.fingerprint.toString('hex'),
+  xprv: master.toBase58(),
+  xpub: master.neutered().toBase58(),
+  derived: {
   fingerprint: derived.fingerprint.toString('hex'),
   depth: derived.depth,
   index: derived.index,
   main,
   test
+  }
 })
