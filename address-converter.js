@@ -4,6 +4,7 @@ const bitcoin = require("bitcoinjs-lib");
 const { BIP32Factory } = require("bip32");
 const ecc = require("tiny-secp256k1");
 const bip32 = BIP32Factory(ecc);
+const {networks} = require('./networks');
 
 program
   .addHelpText("before", "converts a given address between networks.")
@@ -19,13 +20,6 @@ program
   .parse(process.argv);
 
 const options = program.opts();
-
-const networks = {
-  mainnet: bitcoin.networks.bitcoin,
-  bitcoin: bitcoin.networks.bitcoin,
-  testnet: bitcoin.networks.testnet,
-  regtest: bitcoin.networks.regtest,
-};
 
 const convertBech32 = (address, targetNetwork) => {
   const decoded = bitcoin.address.fromBech32(address);

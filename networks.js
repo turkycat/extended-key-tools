@@ -15,8 +15,8 @@ const networks = {
   testnetYpub: {
     ...bitcoin.networks.testnet,
     bip32: {
-      public: 0x044a5262, // tpub
-      private: 0x044a4e28, // tprv
+      public: 0x044a5262, // upub
+      private: 0x044a4e28, // uprv
     },
   },
   mainnetZpub: {
@@ -35,9 +35,9 @@ const networks = {
   },
 };
 
-const testnetChars = ["t", "u", "v", "U", "V"];
-const ypubChars = ["Y", "y"];
-const zpubChars = ["Z", "z"];
+const testnetChars = ["t", "u", "U", "v", "V"];
+const ypubChars = ["Y", "y", "u", "U",];
+const zpubChars = ["Z", "z", "v", "V"];
 
 const getNetworksForExtendedKey = (key) => {
   let mainnet = networks.mainnet;

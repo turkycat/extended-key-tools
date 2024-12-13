@@ -5,6 +5,7 @@ const { BIP32Factory } = require('bip32');
 const ecc = require('tiny-secp256k1');
 const bip32 = BIP32Factory(ecc);
 const {getNetworksForExtendedKey} = require('./networks');
+const {translateIndex} = require('./utils');
 
 program
   .addHelpText('before', 'decodes an extended key.')
@@ -25,7 +26,12 @@ else {
 }
 
 console.log('depth       :', b32Key.depth);
-console.log('index       :', b32Key.index);
+
+const index = translateIndex(b32Key.index);
+console.log('hardened    :', index.hardened);
+console.log('index       :', index.index);
+console.log('index (val) :', index.value);
+
 console.log('fingerprint :', '0x'.concat(Buffer.from(b32Key.fingerprint).toString('hex')));
 
 if (b32Key.privateKey) {

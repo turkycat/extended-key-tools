@@ -6,6 +6,7 @@ const ecc = require('tiny-secp256k1');
 const { BIP32Path } = require('bitcoinjs-lib/src/types');
 const bip32 = BIP32Factory(ecc);
 const {getNetworksForExtendedKey} = require('./networks');
+const {translateIndex} = require('./utils');
 
 const DEFAULT_PATH = "m/48'/1'/0'/2'"
 
@@ -19,7 +20,7 @@ program
 const options = program.opts();
 
 const networks = getNetworksForExtendedKey(options.key);
-const master = bip32.fromBase58(options.key, networks.current);
+const key = bip32.fromBase58(options.key, networks.current);
 
 if (options.path) {
   options.path = options.path.replace(/h/g, '\'');
@@ -30,21 +31,35 @@ else {
   options.path = DEFAULT_PATH;
 }
 
-master.network = networks.mainnet;
-let derived = master.derivePath(options.path)
-const main = { xprv: derived.toBase58(), xpub: derived.neutered().toBase58() };
-const derivedAsTestnet = bip32.fromBase58(derived.toBase58(), networks.mainnet);
-derivedAsTestnet.network = networks.testnet;
-const test = { tprv: derivedAsTestnet.toBase58(), tpub: derivedAsTestnet.neutered().toBase58() };
+key.network = networks.mainnet;
+const derived = key.derivePath(options.path)
+const derivedTest = bip32.fromBase58(derived.toBase58(), networks.mainnet);
+derivedTest.network = networks.testnet;
 
+let main = {}
+let test = {}
+const isPrivate = !!derived.privateKey;
+if (isPrivate) {
+  main.xprv = derived.toBase58();
+  test.tprv = derivedTest.toBase58();
+}
+main.xpub = derived.neutered().toBase58();
+test.tpub = derivedTest.neutered().toBase58();
+
+
+const index = translateIndex(derived.index);
 console.log({
-  origin: master.fingerprint.toString('hex'),
-  fingerprint: derived.fingerprint.toString('hex'),
-  depth: derived.depth,
-  index: derived.index,
-  main,
-  test
-})
+  origin: key.fingerprint.toString("hex"),
+  derived: {
+    fingerprint: derived.fingerprint.toString("hex"),
+    depth: derived.depth,
+    hardened: index.hardened,
+    index: index.index,
+    indexVal: index.value,
+    main,
+    test,
+  },
+});
 
 if (options.generateAddresses) {
   for (let i = 0; i < 3; i++) {

@@ -1,4 +1,6 @@
-# extended key decoder
+# extended key tools
+
+originally just a decoder, this repo's tools have slowly evolved and gotten more useful over time as I have needed them to.
 
 ## installation
 
