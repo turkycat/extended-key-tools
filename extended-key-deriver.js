@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command, Option } = require("commander");
 const program = new Command();
 const bitcoin = require("bitcoinjs-lib");

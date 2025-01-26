@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command } = require("commander");
 const program = new Command();
 const crypto = require("crypto");
@@ -6,7 +8,11 @@ const bitcoin = require("bitcoinjs-lib");
 const DEFAULT_BYTE_LENGTH = 16;
 
 program
-  .addHelpText("before", "generates a hex-encoded string of random data.")
+  .addHelpText("before", "generates a 256-bit private key using sha256.")
+  .addHelpText(
+    "after",
+    "\nWARNING: this tool is for educational  purposes only. Do not secure real funds with these keys."
+  )
   .option(
     "-l, --length <length>",
     `the length of data to generate, in bytes: ${DEFAULT_BYTE_LENGTH}`

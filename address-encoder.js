@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command, Option } = require("commander");
 const bitcoin = require("bitcoinjs-lib");
 const { BIP32Factory } = require("bip32");

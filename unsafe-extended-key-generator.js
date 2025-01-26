@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command } = require("commander");
 const program = new Command();
 const bitcoin = require("bitcoinjs-lib");
@@ -16,6 +18,10 @@ program
   .addHelpText(
     "before",
     "generates extended key pairs for mainnet and testnet from a common randomly-generated seed."
+  )
+  .addHelpText(
+    "after",
+    "\nWARNING: this tool is for educational  purposes only. Do not secure real funds with these keys."
   )
   .option(
     "-p, --path <path>",

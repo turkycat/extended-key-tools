@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { Command } = require("commander");
 const program = new Command();
 const crypto = require("crypto");
@@ -11,6 +13,10 @@ const DEFAULT_BYTE_LENGTH = 16;
 
 program
   .addHelpText("before", "generates a hex-encoded string of random data.")
+  .addHelpText(
+    "after",
+    "\nWARNING: this tool is for educational  purposes only. Do not secure real funds with these keys."
+  )
   .option(
     "-l, --length <length>",
     `the length of data to generate, in bytes: ${DEFAULT_BYTE_LENGTH}`
@@ -19,6 +25,7 @@ program
     "-e, --entropy <entropy>",
     `the hex-encoded entropy data to use instead of generating new random data.`
   )
+
   .parse(process.argv);
 
 const options = program.opts();
