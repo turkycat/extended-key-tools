@@ -1,6 +1,10 @@
 # extended key tools
 
-originally just a decoder, this repo's tools have slowly evolved and gotten more useful over time as I have needed them to.
+a collection of simple scripts for generating and manipulating extended keys using bitcoinjs-lib.
+
+THESE TOOLS ARE UNSAFE TO USE FOR SECURING REAL FUNDS. THEY ARE FOR EDUCATIONAL PURPOSES ONLY; USE AT YOUR OWN RISK!
+
+originally just a decoder, this repo has evolved as I needed it to for my purposes. education is a journey, and there may be bugs or awkwardness of implementation. feel free to create a pull request if you desire to improve any of these tools.
 
 ## installation
 
@@ -15,6 +19,7 @@ node extended extended-key-decoder.js --help
 ```
 
 example 1:
+
 ```bash
 $ node extended-key-decoder.js -k tprv8ZgxMBicQKsPdhuKY6jDJqmSvtvqcRPCbsRvUbJsK7Zb19sLBfynUnrdC89Xwb3XhPjv1SLDJsu85T63AxRYzbpS417PUUkPCGLsU8FwMjm
 version     : 0x04358394
@@ -28,6 +33,7 @@ chain code  : 0x53aa48cfaebd77ce6969c648e12226e3db04f9888f14702cddc86da3c6dbf76d
 ```
 
 example 2:
+
 ```bash
 $ node extended-key-decoder.js -k xpub6CSdFY7QRDDQMAZ3kHGHXJD5EB8mvaoHwhfzAjb3z73W9gYzha7CL674f2gZEcbM4ADZerxFoMqsWjU13CXGsZPb6LjviM8UWyxoRfxKwNd
 version     : 0x0488b21e

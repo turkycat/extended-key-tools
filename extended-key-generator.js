@@ -5,10 +5,12 @@ const { BIP32Factory } = require("bip32");
 const ecc = require("tiny-secp256k1");
 const { BIP32Path } = require("bitcoinjs-lib/src/types");
 const bip32 = BIP32Factory(ecc);
-const {networks} = require('./networks');
-const {translateIndex} = require('./utils');
+const { networks } = require("./networks");
+const { translateIndex } = require("./utils");
+const crypto = require("crypto");
 
 const DEFAULT_PATH = "m/48'/1'/0'/2'";
+const DEFAULT_BYTE_LENGTH = 16;
 
 program
   .addHelpText(
@@ -23,8 +25,9 @@ program
 
 const options = program.opts();
 
-// Generate a random seed (not secure)
-const seed = bitcoin.crypto.sha256(Math.random().toString());
+// the use of the crypto library is better than a conventional random number generator
+// but you should never use this to secure real funds. This is for educational purposes only.
+const seed = bitcoin.crypto.sha256(crypto.randomBytes(DEFAULT_BYTE_LENGTH));
 const master = bip32.fromSeed(seed, networks.bitcoin);
 
 if (options.path) {
