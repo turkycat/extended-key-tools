@@ -14,7 +14,7 @@ program
   )
   .option(
     "-l, --length <length>",
-    `the length of data to generate, in bytes: ${DEFAULT_BYTE_LENGTH}`
+    `the length of entropy data to generate, in bytes: ${DEFAULT_BYTE_LENGTH}`
   )
   .parse(process.argv);
 
@@ -24,4 +24,4 @@ const length = options.length || DEFAULT_BYTE_LENGTH;
 // the use of the crypto library is better than a conventional random number generator
 // but you should never use this to secure real funds. This is for educational purposes only.
 const data = crypto.randomBytes(length).toString("hex");
-console.log("generated new entropy :", data);
+console.log("generated new entropy  :", data);
