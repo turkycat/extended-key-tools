@@ -12,12 +12,9 @@ program
   .addHelpText("before", "converts a given address between networks.")
   .requiredOption("-a, --address <address>", "the address to convert")
   .addOption(
-    new Option("-n, --network <network>", "the network to convert to").choices([
-      "mainnet",
-      "bitcoin",
-      "testnet",
-      "regtest",
-    ])
+    new Option("-n, --network <network>", "the network to convert to")
+      .choices(["mainnet", "bitcoin", "testnet", "regtest"])
+      .default("mainnet")
   )
   .parse(process.argv);
 
